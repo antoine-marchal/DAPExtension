@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "DAP Extension",
+  "version": "1.0",
+  "description": "A DAP-like Chrome extension for example.com with tours and quick actions.",
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.3dexperience.3ds.com/*"],
+      "js": ["libs/shepherd.min.js",
+       "init.js",
+        "content/content.js",
+        "ui/menu.js",
+        "tours/tour1.js",
+        "tours/tour2.js",
+        "actions/action1.js"
+        ],
+      "css": ["content/ui.css", "libs/shepherd.min.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "ui/icon.png",
+        "ui/icon.svg",
+        "libs/shepherd.min.js",
+        "libs/shepherd.min.css"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
