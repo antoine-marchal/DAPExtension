@@ -1,8 +1,15 @@
 {
   "manifest_version": 3,
   "name": "DAP Extension",
-  "version": "1.0",
-  "description": "A DAP-like Chrome extension for example.com with tours and quick actions.",
+  "version": "1.0.0",
+  "description": "Interactive guided tours and quick actions for the 3DExperience platform",
+  "author": "Antoine Marchal",
+  "homepage_url": "https://github.com/antoinemarchal/dap-extension",
+  "icons": {
+    "16": "ui/icon.png",
+    "48": "ui/icon.png",
+    "128": "ui/icon.png"
+  },
   "permissions": [
     "scripting",
     "activeTab"
@@ -10,14 +17,19 @@
   "content_scripts": [
     {
       "matches": ["*://*.3dexperience.3ds.com/*"],
-      "js": ["libs/shepherd.min.js",
-       "init.js",
+      "js": [
+        "libs/shepherd.min.js",
+        "init.js",
+        "scripts/highlight-paragraphs.js",
+        "scripts/show-element-info.js",
+        "scripts/scroll-to-top.js",
+        "scripts/toggle-images.js",
+        "scripts/focus-mode.js",
         "content/content.js",
         "ui/menu.js",
-        "tours/tour1.js",
-        "tours/tour2.js",
-        "actions/action1.js"
-        ],
+        "loaders/tour-loader.js",
+        "loaders/script-loader.js"
+      ],
       "css": ["content/ui.css", "libs/shepherd.min.css"]
     }
   ],
@@ -27,7 +39,8 @@
         "ui/icon.png",
         "ui/icon.svg",
         "libs/shepherd.min.js",
-        "libs/shepherd.min.css"
+        "libs/shepherd.min.css",
+        "config/tours.json"
       ],
       "matches": ["<all_urls>"]
     }

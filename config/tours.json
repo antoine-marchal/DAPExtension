@@ -1,0 +1,49 @@
+{
+  "menus": [
+    {
+      "id": "getting-started",
+      "label": "Getting Started",
+      "icon": "🚀",
+      "order": 1
+    },
+    {
+      "id": "advanced",
+      "label": "Advanced Features",
+      "icon": "⚡",
+      "order": 2
+    }
+  ],
+  "tours": [
+    {
+      "label": "Welcome Tour",
+      "description": "Introduction to the DAP extension features",
+      "parent": "getting-started",
+      "steps": [
+        {
+          "title": "Welcome to DAP!",
+          "text": "This is a plus button that allows you to add new content.",
+          "element": "span.fonticon-plus",
+          "position": "top"
+        },
+        {
+          "text": "This area is where you can create comments and provide feedback.",
+          "element": "p.ck-placeholder",
+          "position": "bottom"
+        }
+      ]
+    },
+    {
+      "label": "Platform Overview", 
+      "description": "Overview of the 3DExperience platform",
+      "parent": "advanced",
+      "steps": [
+        {
+          "title": "Getting Started",
+          "text": "Welcome to the 3DExperience platform! This quick tour will show you the main features and help you get oriented.",
+          "element": "body",
+          "position": "center"
+        }
+      ]
+    }
+  ]
+}
