@@ -14,6 +14,13 @@
     "scripting",
     "activeTab"
   ],
+  "host_permissions": [
+    "*://*.3dexperience.3ds.com/*",
+    "file:///*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": ["*://*.3dexperience.3ds.com/*"],

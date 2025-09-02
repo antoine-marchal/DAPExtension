@@ -419,7 +419,7 @@
 .shepherd-element[data-popper-placement^="top"] > .shepherd-arrow:before {
   border-left: 12px solid transparent !important;
   border-right: 12px solid transparent !important;
-  border-top: 12px solid #2563eb !important;
+  border-top: 12px solid #fff !important;
   bottom: -12px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
@@ -432,7 +432,7 @@
 .shepherd-element[data-popper-placement^="bottom"] > .shepherd-arrow:before {
   border-left: 12px solid transparent !important;
   border-right: 12px solid transparent !important;
-  border-bottom: 12px solid #2563eb !important;
+  border-bottom: 12px solid #fff !important;
   top: -12px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
@@ -445,7 +445,7 @@
 .shepherd-element[data-popper-placement^="left"] > .shepherd-arrow:before {
   border-top: 12px solid transparent !important;
   border-bottom: 12px solid transparent !important;
-  border-left: 12px solid #2563eb !important;
+  border-left: 12px solid #fff !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
 }
@@ -457,7 +457,7 @@
 .shepherd-element[data-popper-placement^="right"] > .shepherd-arrow:before {
   border-top: 12px solid transparent !important;
   border-bottom: 12px solid transparent !important;
-  border-right: 12px solid #2563eb !important;
+  border-right: 12px solid #fff !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
 }
@@ -468,17 +468,28 @@
 
 /* Positioning adjustments for better spacing */
 .shepherd-element[data-popper-placement^="top"] {
-  margin-bottom: 60px !important;
+  margin-bottom: 15px !important;
 }
 
 .shepherd-element[data-popper-placement^="bottom"] {
-  margin-top: 60px !important;
+  margin-top: 15px !important;
 }
 
 .shepherd-element[data-popper-placement^="left"] {
-  margin-right: 60px !important;
+  margin-right: 15px !important;
 }
 
 .shepherd-element[data-popper-placement^="right"] {
-  margin-left: 60px !important;
+  margin-left: 15px !important;
 }
+
+
+/* Shepherd arrow: flush against .shepherd-content for all placements */
+.shepherd-element[data-popper-placement^="bottom"] > .shepherd-arrow { top: 0px !important; bottom: auto !important; }
+.shepherd-element[data-popper-placement^="top"]    > .shepherd-arrow { bottom: 0px !important; top: auto !important; }
+.shepherd-element[data-popper-placement^="left"]   > .shepherd-arrow { right: 0px !important; left: auto !important; }
+.shepherd-element[data-popper-placement^="right"]  > .shepherd-arrow { left: 0px !important; right: auto !important; }
+
+/* Remove theme spacing that can create a visible gap */
+.shepherd-element { margin: 0 !important; }
+.shepherd-element .shepherd-content { margin: 0 !important; }

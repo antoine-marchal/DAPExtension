@@ -1,0 +1,54 @@
+{
+  "menus": [
+    {
+      "id": "menu",
+      "label": "OK",
+      "icon": "🚀",
+      "order": 1
+    },
+    {
+      "id": "advanced",
+      "label": "Advanced Features !!",
+      "icon": "⚡",
+      "order": 2
+    }
+  ],
+  "tours": [
+    {
+      "label": "On va essayer !",
+      "description": "Introduction to the DAP extension features",
+      "parent": "menu",
+      "steps": [
+        {
+          "title": "Welcome to DAP!",
+          "text": "This is a plus button that allows you to add new content.",
+          "element": "span.fonticon-plus",
+          "position": "top"
+        },
+        {
+          "text": "This area is where you can create comments and provide feedback.",
+          "element": "p.ck-placeholder",
+          "position": "bottom"
+        }
+      ]
+    },
+    {
+      "label": "On va essayer !",
+      "description": "Introduction to the DAP extension features",
+      "parent": "advanced",
+      "steps": [
+        {
+          "title": "Welcome to DAP!",
+          "text": "This is a plus button that allows you to add new content.",
+          "element": "span.fonticon-plus",
+          "position": "top"
+        },
+        {
+          "text": "This area is where you can create comments and provide feedback.",
+          "element": "p.ck-placeholder",
+          "position": "bottom"
+        }
+      ]
+    }
+  ]
+}

@@ -3,11 +3,70 @@
 
 (async function() {
   if (!window.DAP_TOURS) window.DAP_TOURS = [];
-
+  
   try {
-    // Load tours configuration
-    const toursResponse = await fetch(chrome.runtime.getURL('config/tours.json'));
-    const toursConfig = await toursResponse.json();
+    // Load tours configuration (supports window.DAP_TOURS_PATHS array or window.DAP_TOURS_PATH string)
+    let toursConfig;
+    const defaultToursPath = chrome.runtime.getURL('config/tours.json');
+
+    // Helper: fetch and parse JSON, throwing on non-OK.
+    // Attempts a direct fetch first; if that fails due to CORS or the URL is file://,
+    // it will ask the extension background service worker to fetch the resource.
+    async function tryFetchJson(url) {
+      // Fast path: try direct fetch (works for http/https and extension/resource URLs)
+      try {
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error(`Failed to fetch ${url}: ${resp.status} ${resp.statusText}`);
+        return await resp.json();
+      } catch (err) {
+        // For file:// or CORS-restricted URLs, fall back to background fetch via chrome.runtime
+        try {
+          if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+            const result = await new Promise((resolve) => {
+              chrome.runtime.sendMessage({ type: 'fetchJson', url }, resolve);
+            });
+            if (result && result.success && typeof result.text === 'string') {
+              return JSON.parse(result.text);
+            } else {
+              throw new Error(result && result.error ? result.error : 'Background fetch failed');
+            }
+          }
+        } catch (bgErr) {
+          // Re-throw original fetch error if background fetch isn't available or also failed
+          throw err;
+        }
+        // If no background messaging available, rethrow original error
+        throw err;
+      }
+    }
+
+    // Load tours configuration from a single required path set in init.js via window.DAP_TOURS_PATH.
+    // This loader will perform the fetch via the extension background service worker to avoid CORS
+    // and file:// restrictions. No fallback to packaged config and no multi-path support.
+    const toursPath = (window.DAP_TOURS_PATH && typeof window.DAP_TOURS_PATH === 'string') ? window.DAP_TOURS_PATH : null;
+    if (!toursPath) {
+      throw new Error('DAP Extension: window.DAP_TOURS_PATH must be set to a single file:// or http(s) URL in init.js');
+    }
+
+    try {
+      // Use background fetch (chrome.runtime) exclusively for the configured path
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+        const result = await new Promise((resolve) => {
+          chrome.runtime.sendMessage({ type: 'fetchJson', url: toursPath }, resolve);
+        });
+        if (result && result.success && typeof result.text === 'string') {
+          toursConfig = JSON.parse(result.text);
+          console.info('DAP Extension: Loaded tours from (background)', toursPath);
+        } else {
+          throw new Error(result && result.error ? result.error : 'Background fetch failed');
+        }
+      } else {
+        throw new Error('DAP Extension: chrome.runtime messaging unavailable for background fetch');
+      }
+    } catch (err) {
+      // Surface the error to the outer catch
+      throw err;
+    }
 
     // Default tour options
     const defaultOptions = {

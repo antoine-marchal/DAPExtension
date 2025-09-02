@@ -90,7 +90,7 @@
     if (orphanItems.length > 0) {
       const otherCategory = {
         id: 'other',
-        label: 'Other',
+        label: 'Autres',
         icon: '📂',
         order: 999
       };
@@ -103,9 +103,26 @@
 
   async function loadTourMenus() {
     try {
-      const response = await fetch(chrome.runtime.getURL('config/tours.json'));
-      const config = await response.json();
-      return config.menus || [];
+      // Expect a single path configured in init.js
+      const toursPath = (window.DAP_TOURS_PATH && typeof window.DAP_TOURS_PATH === 'string') ? window.DAP_TOURS_PATH : null;
+      if (!toursPath) {
+        throw new Error('DAP Extension: window.DAP_TOURS_PATH must be set to a valid URL in init.js');
+      }
+
+      // Use background service worker to fetch the JSON (avoids CORS/file:// issues)
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+        const result = await new Promise((resolve) => {
+          chrome.runtime.sendMessage({ type: 'fetchJson', url: toursPath }, resolve);
+        });
+        if (result && result.success && typeof result.text === 'string') {
+          const config = JSON.parse(result.text);
+          return config.menus || [];
+        } else {
+          throw new Error(result && result.error ? result.error : 'Background fetch failed');
+        }
+      } else {
+        throw new Error('DAP Extension: chrome.runtime messaging unavailable for background fetch');
+      }
     } catch (error) {
       console.error('DAP Extension: Error loading tour menus:', error);
       return [];
