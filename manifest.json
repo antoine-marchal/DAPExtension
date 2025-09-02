@@ -16,7 +16,8 @@
   ],
   "host_permissions": [
     "*://*.3dexperience.3ds.com/*",
-    "file:///*"
+    "file:///*",
+    "https://worldtimeapi.org/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -34,6 +35,7 @@
         "scripts/toggle-images.js",
         "scripts/focus-mode.js",
         "content/content.js",
+        "scripts/show-paris-time.js",
         "ui/menu.js",
         "loaders/tour-loader.js",
         "loaders/script-loader.js"
