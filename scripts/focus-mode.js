@@ -5,15 +5,22 @@
   if (!window.DAP_ACTIONS) window.DAP_ACTIONS = [];
 
   function focusMode() {
-    let overlay = document.querySelector('#dap-focus-overlay');
-    if (overlay) {
-      overlay.remove();
+    const $overlay = $('#dap-focus-overlay');
+    if ($overlay.length) {
+      $overlay.remove();
     } else {
-      overlay = document.createElement('div');
-      overlay.id = 'dap-focus-overlay';
-      overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999998; pointer-events: none;';
-      document.body.appendChild(overlay);
-      setTimeout(() => overlay.remove(), 5000);
+      const $overlayNew = $('<div id="dap-focus-overlay"></div>').css({
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.7)',
+        'z-index': 999998,
+        'pointer-events': 'none'
+      });
+      $('body').append($overlayNew);
+      setTimeout(() => $overlayNew.remove(), 5000);
     }
   }
 

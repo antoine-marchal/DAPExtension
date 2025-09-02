@@ -18,6 +18,7 @@
     {
       "matches": ["*://*.3dexperience.3ds.com/*"],
       "js": [
+        "libs/jquery.min.js",
         "libs/shepherd.min.js",
         "init.js",
         "scripts/highlight-paragraphs.js",
